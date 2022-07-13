@@ -7,6 +7,9 @@ import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
+  findByCond(arg0: { email: any; password: any; }) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(UserEntity)
     private repository: Repository<UserEntity>,
@@ -21,7 +24,7 @@ export class UserService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.repository.findOneBy({ id: id });
   }
 
   update(id: number, dto: UpdateUserDto) {

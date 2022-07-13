@@ -15,6 +15,9 @@ export class PostEntity {
   title: string;
 
   @Column()
+  views: number;
+
+  @Column()
   body: string;
 
   @Column({ nullable: true })
