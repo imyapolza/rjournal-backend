@@ -5,10 +5,12 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UserService) {}
+  constructor(private userService: UserService) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByCond({ email, password });
+  async validateUser(email: string, password: string): Promise<any> {
+    const user: any = await this.userService.findByCond({ email, password });
+    console.log(user);
+
     if (user && user.password === password) {
       const { password, ...result } = user;
       return result;

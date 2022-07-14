@@ -9,6 +9,7 @@ import { PostModule } from './post/post.module';
 import { PostEntity } from './post/entities/post.entity';
 import { CommentModule } from './comment/comment.module';
 import { AuthModule } from './auth/auth.module';
+import { LocalAuthGuard } from './auth/local-auth.guard';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -25,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
     PostModule,
     CommentModule,
     AuthModule,
+    LocalAuthGuard,
   ],
   controllers: [AppController],
   providers: [AppService],
