@@ -19,7 +19,7 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
       username: 'postgres',
       password: 'password',
       database: 'tjournal',
-      entities: [UserEntity, PostEntity, CommentEntity],
+      entities: [PostEntity, CommentEntity, UserEntity],
       synchronize: true,
     }),
     UserModule,

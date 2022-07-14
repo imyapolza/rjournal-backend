@@ -1,19 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FindOneOptions } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user-dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  findByCond(arg0: { email: any; password: any; }) {
-    throw new Error('Method not implemented.');
-  }
   constructor(
     @InjectRepository(UserEntity)
     private repository: Repository<UserEntity>,
   ) {}
+
+  findById(id: number) {
+    return this.repository.findOneBy({ id: id });
+  }
+
+  findByCond(cond: LoginUserDto) {
+    return this.repository.findOneBy(cond);
+  }
 
   create(dto: CreateUserDto) {
     return this.repository.save(dto);
