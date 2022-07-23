@@ -1,4 +1,6 @@
 import { IsEmail, Length } from 'class-validator';
+import { UniqueOnDatabase } from 'src/auth/validations/UniqueValidation';
+import { UserEntity } from '../entities/user.entity';
 
 export class CreateUserDto {
   @Length(3, undefined, { message: 'Минимум 3 символа' })

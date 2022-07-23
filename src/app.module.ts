@@ -9,7 +9,7 @@ import { PostModule } from './post/post.module';
 import { PostEntity } from './post/entities/post.entity';
 import { CommentModule } from './comment/comment.module';
 import { AuthModule } from './auth/auth.module';
-import { LocalAuthGuard } from './auth/local-auth.guard';
+import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 @Module({
   imports: [
     TypeOrmModule.forRoot({

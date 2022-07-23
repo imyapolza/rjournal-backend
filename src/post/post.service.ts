@@ -36,11 +36,6 @@ export class PostService {
       .execute();
 
     return this.repository.findOneBy({ id: id });
-
-    // if (!find) {
-    //   throw new NotFoundException('Статья не найдена');
-    // }
-    // return find;
   }
 
   async update(id: number, dto: UpdatePostDto) {
