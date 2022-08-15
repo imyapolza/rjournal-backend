@@ -1,16 +1,15 @@
-import { CreateUserDto } from './../user/dto/create-user.dto';
-import { Body, ForbiddenException, Injectable } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { JwtService } from '@nestjs/jwt';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { CreateUserDto } from "./../user/dto/create-user.dto";
+import { ForbiddenException, Injectable } from "@nestjs/common";
+import { UserService } from "src/user/user.service";
+import { JwtService } from "@nestjs/jwt";
+import { UserEntity } from "src/user/entities/user.entity";
+import { Response } from "express";
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
@@ -29,24 +28,35 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  async register(dto: CreateUserDto) {
+  setAccessToken(user: UserEntity, res: Response) {
+    res.cookie("accessToken", this.generateJwtToken(user), {
+      expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60),
+      sameSite: "strict",
+      httpOnly: true
+    });
+  }
+
+  async login(user: UserEntity, res: Response) {
     try {
-      const { password, ...user } = await this.userService.create(dto);
-      return {
-        ...user,
-        access_token: this.generateJwtToken(user),
-      };
+      const { password, ...userData } = user;
+
+      this.setAccessToken(userData, res);
+
+      return res.send(user);
     } catch (err) {
       throw new ForbiddenException(err);
     }
   }
 
-  async login(user: UserEntity) {
-    const { password, ...userData } = user;
-    const payload = { username: user.fullName, sub: user.id };
-    return {
-      ...userData,
-      access_token: this.generateJwtToken(userData),
-    };
+  async register(dto: CreateUserDto, res: Response) {
+    try {
+      const { password, ...user } = await this.userService.create(dto);
+
+      this.setAccessToken(user, res);
+
+      return res.send(user);
+    } catch (err) {
+      throw new ForbiddenException(err);
+    }
   }
 }
