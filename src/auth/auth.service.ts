@@ -19,6 +19,7 @@ export class AuthService {
       const { password, ...result } = user;
       return result;
     }
+
     return null;
   }
 
@@ -30,9 +31,8 @@ export class AuthService {
 
   setAccessToken(user: UserEntity, res: Response) {
     res.cookie("accessToken", this.generateJwtToken(user), {
-      expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60),
-      sameSite: "strict",
-      httpOnly: true
+      expires: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 360),
+      sameSite: "strict"
     });
   }
 
